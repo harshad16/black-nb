@@ -78,6 +78,23 @@ TARGET_VERSIONS = {
     show_default=True,
 )
 @click.option(
+    "--extend-exclude",
+    type=str,
+    help=(
+        "Like --exclude, but adds additional files and directories on top of the"
+        " excluded ones. (Useful if you simply want to add to the default)"
+    ),
+)
+@click.option(
+    "--stdin-filename",
+    type=str,
+    help=(
+        "The name of the file when passing it through stdin. Useful to make "
+        "sure Black will respect --force-exclude option on some "
+        "editors that rely on using stdin."
+    ),
+)
+@click.option(
     "-q",
     "--quiet",
     is_flag=True,
@@ -133,6 +150,8 @@ def cli(
     check: bool,
     include: str,
     exclude: str,
+    extend_exclude: str,
+    stdin_filename: str,
     quiet: bool,
     verbose: bool,
     clear_output: bool,
@@ -164,6 +183,8 @@ def cli(
         exclude=exclude,
         force_exclude=None,
         report=report,
+        extend_exclude=extend_exclude,
+        stdin_filename=stdin_filename,
     )
 
     black.path_empty(
